@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio - Classificação de Lista</title>
+    <link rel="stylesheet" href="des2.css">
+    <style>
+        #result {
+            font-size: 1.2em;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Desafio: Classificação de Lista</h2>
+    <p>Complete a lacuna com o comando correto para classificar uma lista de números em ordem crescente.</p>
+
+    <div id="code-area">
+        <textarea id="code" rows="5">numeros = [5, 2, 9, 1]
+numeros.___()
+print(numeros)</textarea>
+        <br>
+        <button onclick="checkCode()">Verificar Código</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function checkCode() {
+            const code = document.getElementById('code').value;
+            const result = document.getElementById('result');
+
+            if (code.includes('sort')) {
+                result.innerText = "Código correto!";
+                result.style.color = '#32CD32';
+
+                alert("Parabéns! Você completou o desafio e ganhou 100 pontos de XP.");
+
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = 'processar_desafio.php';
+
+                const idInput = document.createElement('input');
+                idInput.type = 'hidden';
+                idInput.name = 'id_desafio';
+                idInput.value = '17';
+                form.appendChild(idInput);
+
+                const xpInput = document.createElement('input');
+                xpInput.type = 'hidden';
+                xpInput.name = 'xp';
+                xpInput.value = '100';
+                form.appendChild(xpInput);
+
+                document.body.appendChild(form);
+                form.submit();
+            } else {
+                result.innerText = "Faltou completar o código.";
+                result.style.color = '#ff4d4d';
+            }
+        }
+    </script>
+
+</body>
+</html>

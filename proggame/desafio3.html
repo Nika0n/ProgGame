@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio - Maior número</title>
+    <link rel="stylesheet" href="des.css">
+    <style>
+        .correto {
+            background-color: #d4edda;
+        }
+        .errado {
+            background-color: #f8d7da;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Em Python, como faço um programa que encontre o maior número em uma lista <code>numeros = [4, 1, 9, 6, 3]</code>?</h2>
+        <p>Selecione o código que realiza o que o exercício está pedindo:</p>
+
+        <div class="options">
+            <div class="option">
+                <input type="radio" id="opcao1" name="codigo" value="errado">
+                <label for="opcao1">
+                    <pre><code>maior = min(numeros)
+print(maior)</code></pre>
+                </label>
+            </div>
+
+            <div class="option">
+                <input type="radio" id="opcao2" name="codigo" value="correto">
+                <label for="opcao2">
+                    <pre><code>maior = max(numeros)
+print(maior)</code></pre>
+                </label>
+            </div>
+
+            <div class="option">
+                <input type="radio" id="opcao3" name="codigo" value="errado">
+                <label for="opcao3">
+                    <pre><code>maior = 0
+for numero in numeros:
+    if numero > maior:
+        maior = numero
+print(maior)</code></pre>
+                </label>
+            </div>
+        </div>
+
+        <button id="confirmar">Confirmar escolha</button>
+        <p id="resultado"></p>
+    </div>
+
+    <script>
+        document.getElementById('confirmar').onclick = function() {
+            const opcoes = document.getElementsByName('codigo');
+            let respostaCorreta = false;
+
+            for (const opcao of opcoes) {
+                if (opcao.checked) {
+                    if (opcao.value === "correto") {
+                        respostaCorreta = true;
+                        break;
+                    }
+                }
+            }
+
+            if (respostaCorreta) {
+                document.getElementById('opcao2').parentNode.classList.add('correto');
+                alert("Parabéns! Você completou o desafio e ganhou 100 pontos de XP.");
+
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = 'processar_desafio.php';
+
+                const idInput = document.createElement('input');
+                idInput.type = 'hidden';
+                idInput.name = 'id_desafio';
+                idInput.value = '10';
+                form.appendChild(idInput);
+
+                const xpInput = document.createElement('input');
+                xpInput.type = 'hidden';
+                xpInput.name = 'xp';
+                xpInput.value = '100';
+                form.appendChild(xpInput);
+
+                document.body.appendChild(form);
+                form.submit();
+            } else {
+                for (const opcao of opcoes) {
+                    if (opcao.value === "errado" && opcao.checked) {
+                        opcao.parentNode.classList.add('errado');
+                    }
+                }
+                alert("Resposta incorreta. Tente novamente.");
+            }
+        };
+    </script>
+</body>
+</html>

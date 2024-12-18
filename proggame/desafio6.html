@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="des2.css">
+    <title>Desafio - Soma de Números</title>
+    <style>
+        #resultado {
+            font-size: 1.2em;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Desafio: Monte um código que some os números em uma lista</h2>
+
+<div id="instructions">Arraste os blocos abaixo para formar o código correto.<br> Para retirar um bloco do local de soltura, clique duas vezes sobre ele.</div>
+
+<div id="code-container">
+    <div class="block" draggable="true" id="lista">numeros = [1, 2, 3, 4, 5]</div>
+    <div class="block" draggable="true" id="soma">soma = 0</div>
+    <div class="block" draggable="true" id="for">for num in numeros:</div>
+    <div class="block" draggable="true" id="add">soma += num</div>
+    <div class="block" draggable="true" id="print">print(soma)</div>
+</div>
+
+<div id="drop-area">Arraste o código aqui</div>
+
+<button onclick="checkAnswer()">Verificar Resposta</button>
+
+<p id="resultado"></p>
+
+<script>
+    const dropArea = document.getElementById('drop-area');
+    const blocks = document.querySelectorAll('.block');
+    let selectedBlocks = [];
+
+    blocks.forEach(block => {
+        block.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text', e.target.id);
+            e.target.classList.add('dragging');
+        });
+
+        block.addEventListener('dragend', (e) => {
+            e.target.classList.remove('dragging');
+        });
+
+        block.addEventListener('dblclick', (e) => {
+            removeBlock(e.target);
+        });
+    });
+
+    dropArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropArea.classList.add('drag-over');
+    });
+
+    dropArea.addEventListener('dragleave', () => {
+        dropArea.classList.remove('drag-over');
+    });
+
+    dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropArea.classList.remove('drag-over');
+
+        const blockId = e.dataTransfer.getData('text');
+        const block = document.getElementById(blockId);
+
+        if (!selectedBlocks.includes(block)) {
+            dropArea.appendChild(block);
+            selectedBlocks.push(block);
+        }
+    });
+
+    function removeBlock(block) {
+        dropArea.removeChild(block);
+        document.getElementById('code-container').appendChild(block);
+        selectedBlocks = selectedBlocks.filter(b => b.id !== block.id);
+    }
+
+    function checkAnswer() {
+        const answer = selectedBlocks.map(block => block.id).join(',');
+        const result = document.getElementById('resultado');
+        
+        if (answer === 'lista,soma,for,add,print') {
+            result.innerText = 'Correto! Você formou o código certo.';
+            result.style.color = '#32CD32';
+
+            alert("Parabéns! Você completou o desafio e ganhou 150 pontos de XP.");
+            
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'processar_desafio.php';
+
+            const idInput = document.createElement('input');
+            idInput.type = 'hidden';
+            idInput.name = 'id_desafio';
+            idInput.value = '13';
+            form.appendChild(idInput);
+
+            const xpInput = document.createElement('input');
+            xpInput.type = 'hidden';
+            xpInput.name = 'xp';
+            xpInput.value = '150';
+            form.appendChild(xpInput);
+
+            document.body.appendChild(form);
+            form.submit();
+        } else {
+            result.innerText = 'Errado. Tente novamente.';
+            result.style.color = '#ff4d4d';
+        }
+    }
+</script>
+
+</body>
+</html>
